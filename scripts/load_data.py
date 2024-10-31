@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 def load():
-    data = pd.read_csv('dataset_asi/dataset.txt')
+    data = pd.read_csv('dataset_asi/CollegeDistance.csv')
 
     print(data.info())
     print(data.describe())
