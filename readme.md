@@ -53,7 +53,6 @@ docker run -p 25565:25565 lab4
 
 Aplikacja będzie dostępna pod adresem `http://localhost:25565`.
 
-
 ## Korzystanie z aplikacji
 
 Nalezy wysłać POST request z danymi a w odpowiedzi dostaniemy wynik
