@@ -27,10 +27,6 @@ jobs:
       run: |
         docker run -d -p 25565:25565 tpawlak0322/lab4:1.0
 
-    - name: Wait for Flask to start (sleep 5 seconds)
-      run: |
-        sleep 5
-
     - name: Create data.json
       run: |
         echo '[
