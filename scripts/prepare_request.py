@@ -1,10 +1,11 @@
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
-import joblib
-
-def prepare_data(data):
+def prepare_data_request(data_from_request):
     
+    data = pd.read_csv('./dataset_asi/dataset.txt')
+    data = data.append(data_from_request, ignore_index=True)
+
     data = pd.get_dummies(data, drop_first=True)
     
     data.fillna(data.median(), inplace=True)
@@ -13,10 +14,7 @@ def prepare_data(data):
     numerical_features = data.select_dtypes(include=['float64', 'int64']).columns
     data[numerical_features] = scaler.fit_transform(data[numerical_features])
 
-    X = data.drop('score', axis=1)
-    y = data['score']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    data = data.drop('score', axis=1)
+    data = data.iloc[-1:]    
     
-    joblib.dump(scaler, 'scaler.pkl')
-
-    return X_train, X_test, y_train, y_test
+    return data

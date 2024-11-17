@@ -10,7 +10,7 @@ def train(X_train,y_train,X_test,y_test):
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
-
+    print(X_test)
     mse = mean_squared_error(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
