@@ -9,28 +9,49 @@ on:
       - main
 
 jobs:
-  run-script:
+  run-docker:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11' 
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
 
-    - name: Install dependencies
+    - name: Pull Docker image from Docker Hub
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        docker pull tpawlak0322/lab4:1.0
 
-    - name: Download CSV file
+    - name: Run Docker container
       run: |
-        mkdir -p dataset_asi
-        wget https://vincentarelbundock.github.io/Rdatasets/csv/AER/CollegeDistance.csv -O dataset_asi/CollegeDistance.csv
+        docker run -d -p 25565:25565 tpawlak0322/lab4:1.0
 
-    - name: Run main.py
+    - name: Create data.json
       run: |
-        python main.py
+        echo '[
+          {
+            "rownames": 0,
+            "gender": "male",
+            "ethnicity": "other",
+            "fcollege": "yes",
+            "mcollege": "no",
+            "home": "yes",
+            "urban": "yes",
+            "unemp": 6.2,
+            "wage": 8.09,
+            "distance": 0.2,
+            "tuition": 0.88915,
+            "education": 12,
+            "income": "high",
+            "region": "other"
+          }
+        ]' > data.json
+
+    - name: Send POST request with data.json
+      run: |
+        curl -X POST -H "Content-Type: application/json" -d @data.json http://localhost:25565/predict
+
+    - name: Stop Docker container
+      run: |
+        docker stop $(docker ps -q --filter ancestor=tpawlak0322/lab4)
