@@ -56,6 +56,3 @@ jobs:
       run: |
         curl -X POST -H "Content-Type: application/json" -d @data.json http://localhost:25565/predict
 
-    - name: Stop Docker container
-      run: |
-        docker stop $(docker ps -q --filter ancestor=tpawlak0322/lab4)
