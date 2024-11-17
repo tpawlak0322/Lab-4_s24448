@@ -25,7 +25,7 @@ jobs:
 
     - name: Run Docker container
       run: |
-        docker run -d -p 25565:25565 tpawlak0322/lab4:1.0
+        docker run -d -p 25565:25565 --platform linux/amd64 tpawlak0322/lab4:1.0
 
     - name: Wait for Flask to start (sleep 5 seconds)
       run: |
